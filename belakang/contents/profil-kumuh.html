@@ -1,0 +1,316 @@
+<div class="col-md-12">
+    <div class="alert alert-info" id="message-action">
+        <span><b>Berhasil</b> This is a regular notification made with ".alert-info"</span>
+    </div>
+</div>
+<div class="col-md-12">
+    <div class="card">
+        <div class="card-body">
+            <div class="card-title">
+                <h5 class="title">Tambahkan Profil Kumuh</h5>
+            </div>
+            <br>
+            <form id="form-kumuh" action="" enctype="multipart/form-data" method="POST">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="fileinput fileinput-new text-center" data-provides="fileinput">
+                            <div class="fileinput-new thumbnail img-raised">
+                                <img id="preview-img" src="./assets/img/jpg.jpg" alt="...">
+                            </div>
+                            <div class="fileinput-preview fileinput-exists thumbnail img-raised"></div>
+                            <div>
+                                <p class="mp-0" id="size-img"></p>
+                                <span class="btn btn-raised btn-round btn-default btn-file">
+                                    <span class="fileinput-new">Pilih Gambar</span>
+                                    <span class="fileinput-exists">Change</span>
+                                    <input name="tb_kumuh_gambar" id="input-img" type="file" />
+                                </span>
+                                <input class="form-control" type="text" name="image_name" id="img-name" placeholder="Nama Gambar" readonly>
+                                <a href="#pablo" class="btn btn-danger btn-round fileinput-exists" data-dismiss="fileinput"><i class="fa fa-times"></i> Remove</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-8 justify-content-center-end">
+                        <div class="form-group has-success">
+                            <label for="deskripsi">Nama Gambar</label>
+                            <input class="form-control" type="text" name="tb_kumuh_nama" maxlength="150">
+                        </div>
+                        <input type="submit" id="btn-submit" class="btn btn-info" value="Simpan Profil Kumuh">
+                        <input type="button" id="btn-batal" onclick="_batal()" class="btn btn-default" value="Batal" hidden>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="col-md-12">
+    <div class="card">
+        <div class="card-header">
+            <h4 class="card-title">Daftar Profil Kumuh</h4>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-shopping">
+                    <thead class="">      
+                        <tr>
+                            <th class="text-left">Gambar</th>
+                            <th class="text-left">Nama</th>
+                            <th class="text-right">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody id="data-table">             
+                        <!-- data table -->
+                    </tbody>
+                </table>
+                <hr>
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination" id="pagenation">
+                        <li class="page-item"><a class="page-link" href="#"><i class="fas fa-angle-double-left"></i></a></li>
+                        <li class="page-item"><a class="page-link" href="#">1</a></li>
+                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                        <li class="page-item"><a class="page-link" href="#"><i class="fas fa-angle-double-right"></i></a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var link = 'baubau/profil-kumuh';
+	var dataAll = [];
+	var dataPilih = [];
+	var page = 1;
+	var jumlahPage = 1;
+	
+	$(document).ready( function() {
+        getData();
+        $("#form-kumuh").attr("action", config.apiRoot+link+'/create');
+	});
+    // membuat preview gambar sebelum diupload
+    function viewGambar(input) {
+      if (input.files && input.files[0]) {
+          var reader = new FileReader()
+    
+          reader.onload = function (e) {
+              $('#preview-img').attr('src', e.target.result)
+          }
+    
+          reader.readAsDataURL(input.files[0])
+      }
+    }
+
+    $("#input-img").change(function(){
+        var fileInput =  document.getElementById("input-img");
+        // alert(fileInput.files[0].name);
+        $('#img-name').val(fileInput.files[0].name);
+        // if(fileInput.files[0].size > 2000048){
+        //     document.getElementById("size-img").innerHTML = 'lebih dari 2 MB';
+        // }else{
+        //     document.getElementById("size-img").innerHTML = '';
+        // }
+        viewGambar(this)
+    });
+    // end
+
+    $("#message-action").hide();
+    function message(message, status = true){
+        $("#message-action").show();
+        if(status){
+            $("#message-action").attr("class", "alert alert-info");
+        }else{
+            $("#message-action").attr("class", "alert alert-danger");
+        }
+        $("#message-action").html(message);
+        setTimeout(function(){$("#message-action").fadeOut('slow');}, 3000);
+    }
+
+    // url = config.apiRoot+link+'/create';
+    $("#form-kumuh").on("submit", function(e){
+      e.preventDefault();
+    //   var data = new FormData(this);
+    //   console.log(data);
+    let url = $("#form-kumuh").attr("action");
+      $.ajax({
+        method : 'POST',
+        url : url,
+        dataType : 'JSON',
+        data : new FormData(this),
+        contentType : false,
+        cache : false,
+        processData : false,
+        success : function(respon){
+            message(respon.pesan, respon.status);
+            emptyForm();
+            getData();
+            _batal();
+            console.log(respon);
+        },error: function(respon){
+            message(respon.pesan, respon.status);
+            console.log(respon);
+        }
+      });
+    });
+
+    function getData(_page = 1){
+		console.log("aku getData");
+		page = _page;
+		var url = config.apiRoot+link+'/page-'+page;
+		console.log(url)
+		loading();
+		return $.ajax({
+			type: "POST",
+			url: url,
+			dataType: "JSON",
+			data: {
+
+			},
+			success: function(respon){   
+				setDataAll(respon);
+				dataAll = respon.data;
+				jumlahPage = respon.jumlahPage;
+				setPagenation(dataAll, page);
+				console.log(respon);
+				loading(false);
+			},
+			error:function(error){
+				console.log(error);
+				loading(false);
+			}
+		});
+	}
+	
+	// $( "#form-data" ).submit(function( event ) {
+		
+	// 	event.preventDefault();
+	// 	form = $(this);
+	// 	url = form.attr('action');
+	// 	let data = form.serializeArray();
+	// 	console.log(url);
+		
+	// 	$('#modal-form').modal('hide');
+	// 	$.when(sendAjax(url, data)).done(function(a1){
+	// 		getData();
+	// 	});
+
+	// });
+
+	function setDataAll(respon){
+		dataAll = respon.data;
+		inputData(respon.data);
+	}
+	
+	function inputData(data){
+		$("#data-table").empty();
+		console.log(data);
+		let i = 1;
+		data.forEach(element => {
+			
+			let row =   '<tr>'+
+                            '<td>'+
+                                '<div class="img-container">'+
+                                    '<img src="../server/upload/kumuh/'+element.tb_kumuh_gambar+'" alt="gambar profil kumuh" />'+
+                                '</div>'+
+                            '</td>'+
+                            '<td>'+
+                                '<p>'+element.tb_kumuh_nama+'</p>'+
+                            '</td>'+
+                            '<td class="text-right">'+
+                                '<button type="button" rel="tooltip" idData="'+element.id_tb_kumuh+'" onclick="_update(this)" class="btn btn-success btn-icon btn-sm " data-original-title="" title="">'+
+                                    '<i class="now-ui-icons ui-2_settings-90"></i>'+
+                                '</button>'+
+                                '<button type="button" rel="tooltip" idData="'+element.id_tb_kumuh+'" onclick="_delete(this)" class="btn btn-danger btn-icon btn-sm " data-original-title="" title="">'+
+                                    '<i class="now-ui-icons ui-1_simple-remove"></i>'+
+                                '</button>'+
+                            '</td>'+
+                        '</tr>';
+
+			$("#data-table").append(row);
+		});
+	}
+
+    function _delete(obj){
+        let idData = $(obj).attr('idData');
+        Swal.fire({
+            title: 'Apakah anda yakin?',
+            text: "Data akan terhapus secara permanent",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ya, hapus data',
+        }).then((result) => {
+            console.log(result);
+            if (result.value) {
+                if(doDelete(idData)){
+                    Swal.fire(
+                        'Data terhapus!',
+                        'Data anda terhapus permanent.',
+                        'success'
+                    );
+                }
+            }
+        })
+    }
+
+    function doDelete(idData){
+		url = config.apiRoot+link+'/delete/'+idData;
+        console.log(url);
+		$.when(sendAjax(url, {})).done(function(a1){
+            console.log(a1);
+			getData();
+		});
+
+        return true;
+	}
+
+    function _update(obj){
+		let idData = $(obj).attr('idData');
+
+		$("#form-kumuh").attr("action", config.apiRoot+link+'/update/'+idData);
+		let data = getDataById(idData);
+
+		emptyForm();
+		inputForm(data);
+	}
+	
+	function getDataById(idData){
+		dataAll.forEach(element => {
+			if(element.id_tb_kumuh === idData){
+				dataPilih = element;
+			}
+		});
+		return dataPilih;
+	}
+	
+	function inputForm(data){
+
+        $('input[name=image_name]').val(data.tb_kumuh_gambar);
+        $('input[name=tb_kumuh_nama]').val(data.tb_kumuh_nama);
+        $('#preview-img').attr('src', '../server/upload/kumuh/'+data.tb_kumuh_gambar);
+        $('#btn-submit').val('Ubah');
+        $('#btn-batal').removeAttr('hidden');
+    }
+    
+    function _batal(){
+        emptyForm();
+        $("#form-kumuh").attr("action", config.apiRoot+link+'/create');
+        $('#btn-submit').val('Simpan Profil Kumuh');
+        $('#btn-batal').attr('hidden', '');
+    }
+
+	function emptyForm(){
+
+		// $('#urusan option').removeAttr('selected');
+		// $('#fungsi option').removeAttr('selected');
+
+		$('input[name=tb_kumuh_gambar]').val('');
+        $('input[name=image_name]').val('');
+        $('input[name=tb_kumuh_nama]').val('');
+        $('#preview-img').attr('src', './assets/img/jpg.jpg');
+	}
+    
+</script>

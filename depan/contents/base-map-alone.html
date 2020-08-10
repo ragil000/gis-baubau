@@ -1,0 +1,183 @@
+<div class="container">
+  <!-- <div class="row">
+      <div class="col-12"></div>
+        <div id='map' class="map"></div>
+        <div class='map-overlay' id='legend'></div>
+      </div>
+  </div> -->
+
+  <div class="col-md-12">
+  
+      <div class="card-body ">        
+          <div id="map" class="map" >
+          
+          </div>
+      </div>
+  </div>
+</div>
+
+<!-- <div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card card-map">
+        <div class="card-body ">
+            <div class="card-title ">
+              Base Map Kota Bau-Bau
+            </div>
+            <div id='map' class="map"></div>
+            <div class='map-overlay' id='legend'></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> -->
+
+<script>
+  mapboxgl.accessToken = 'pk.eyJ1IjoiZmFraHJhd3kiLCJhIjoiY2pscWs4OTNrMmd5ZTNra21iZmRvdTFkOCJ9.15TZ2NtGk_AtUvLd27-8xA';
+  
+  var kendari = [122.599521, -5.468334];
+  var link = 'baubau/basemap';
+  
+  var map = new mapboxgl.Map({
+      container: 'map',
+      style: 'mapbox://styles/mapbox/streets-v9',
+      center: kendari,
+      zoom: 9
+  });
+
+  map.on('load', function() {
+    // the rest of the code will go in here
+    let url = config.apiRoot+link+'/getAllData';
+    $.ajax({
+			type: "POST",
+			url: url,
+			dataType: "JSON",
+			data: {
+
+			},
+			success: function(respon){   
+				
+				for (let i = 0; i < Object.keys(respon).length; i++) {
+          legendMap(Object.values(respon)[i].tb_basemap_nama, Object.values(respon)[i].tb_basemap_file, Object.values(respon)[i].tb_basemap_tipe, Object.values(respon)[i].tb_basemap_warna);
+          // console.log(Object.values(respon)[i].tb_basemap_nama);
+        }
+
+        // respon.forEach(element => {
+        //   legendMap(element.tb_basemap_nama, element.tb_basemap_file, element.tb_tb_basemap_tipe, element.tb_basemap_warna);
+        //   // console.log(element.tb_basemap_file);
+        // });
+				
+				loading(false);
+			},
+			error:function(error){
+				console.log(error);
+				loading(false);
+			}
+		});
+
+    // var geojson = {
+    //   'batasLine' : 'line',
+    //   'pantaiLine' : 'line',
+    //   'kawasanBandara' : 'polygon'
+    // };
+    // var layers = ['0-10', '10-20', '20-50', '50-100', '100-200', '200-500', '500-1000', '1000+'];
+    // var colors = ['#FFEDA0', '#FED976', '#FEB24C'];
+    
+    // var size = Object.keys(geojson).length;
+
+    // for (i = 0; i < size; i++) {
+    //   legendMap(Object.keys(geojson)[i], Object.values(geojson)[i], colors[i]);
+    //   // console.log(Object.keys(geojson)[i]);
+    // }
+
+    map.getCanvas().style.cursor = 'default';
+    // map.fitBounds([[-133.2421875, 16.972741], [-47.63671875, 52.696361]]);
+  });
+
+  function legendMap(names, files, types, colors){
+      let url = config.apiRoot+'upload/geojson/';
+      var name = names;
+      var file = files;
+      var fileName = file.replace(".geojson", "");
+      // alert(fileName);
+      var type = types;
+      var color = colors;
+      var item = document.createElement('div');
+      var key = document.createElement('span');
+      key.className = 'legend-key';
+      key.style.backgroundColor = color;
+
+      var terlihat = document.createAttribute('terlihat');
+      terlihat.value = 'none';
+      visCssClass = 'active';
+
+      var value = document.createElement('a');
+      value.href = "#";
+      value.className = visCssClass;
+
+      if(type === 'polygon'){
+          map.addLayer({
+              'id': fileName,
+              'type': 'fill',
+              'name': fileName,
+              'source': {
+                  'type': 'geojson',
+                  'data': url+file,
+              },
+              'layout': {},
+              'paint': {
+                  'fill-color': color,
+                  'fill-opacity': 0.8
+              }
+          });
+      }else if(type === 'line'){
+          map.addLayer({
+              'id': fileName,
+              'type': type,
+              'name': fileName,
+              'source': {
+                  'type': 'geojson',
+                  'data': url+file,
+              },
+              "paint": {
+              "line-color": color,
+              "line-width": 1
+              }
+          });
+      }
+
+      map.setLayoutProperty(fileName, 'visibility', 'visible');
+      value.onclick = function (e) {
+              
+        e.preventDefault();
+        e.stopPropagation();
+
+        let visibility = $(this).attr("terlihat");
+        console.log(visibility);
+        if (visibility === 'visible') {
+            map.setLayoutProperty(fileName, 'visibility', 'visible');
+            this.className = 'active';
+            terlihat.value = '';
+        } else {
+            this.className = '';
+            map.setLayoutProperty(fileName, 'visibility', 'none');
+            terlihat.value = 'visible';
+        }
+      };
+
+      var nameLegend = document.createElement('span');
+      nameLegend.innerHTML = name;
+
+      value.setAttributeNode(terlihat);
+      value.appendChild(key);
+      value.appendChild(nameLegend);
+      item.appendChild(value);
+      legend.appendChild(item);
+
+  }
+  // var elem = document.getElementsByClassName('mapboxgl-canvas');
+  $('.mapboxgl-canvas').css("position", "relative");
+  // $('.mapboxgl-canvas').css("height", "70%");
+  // $('.mapboxgl-canvas').css("width", "100%");
+  
+</script>

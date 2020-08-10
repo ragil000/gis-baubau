@@ -1,0 +1,60 @@
+<div class="container">
+    <div class="row justify-content-md-center" style="margin-top: 150px">
+        <div class="alert alert-success" role="alert" id="alert-tentang">
+            <!-- data alert -->
+        </div>
+        <div class="text-center col-md-12 col-lg-8 card-saran">
+            <form id="form-aduan" action="" method="POS">
+                <div class="form-row justify-content-center">
+                <div class="form-group col-md-6">
+                    <label for="inputEmail4">Email</label>
+                    <input type="email" name="tb_aduan_email" class="form-control" id="inputEmail4" placeholder="exaple@example.com">
+                </div>
+                </div>
+                <div class="form-row justify-content-center" style="padding-top: 20px;">
+                <div class="form-group col-md-6">
+                    <label for="inputPassword4">Komentar, Saran atau Masukan</label>
+                    <textarea class="form-control" name="tb_aduan_isi" id="exampleFormControlTextarea1" rows="3" placeholder="Tulis sesuatu disini" maxlength="350"></textarea>
+                </div>
+                </div>
+                <button type="submit" class="btn bg-yellow">Kirim</button>
+            </form>
+        </div>
+    </div>
+    <br>
+    <br>
+    <br>
+</div>
+
+<script>
+    var link3 = 'baubau/tentang-web';
+    $( "#form-aduan" ).submit(function( event ) {
+        event.preventDefault();
+        form = $(this);
+        url = config.apiRoot+link3+'/create';
+        var data = form.serializeArray();
+
+        $.when(sendAjax(url, data)).done(function(e){
+            emptyForm();
+            alertTentang();
+        });
+    });
+
+    $('#alert-tentang').hide();    
+    function alertTentang(){
+        $('#alert-tentang').show();
+        let alert = '<div class="container">'+
+                        '<div class="alert-icon">'+
+                        '<i class="now-ui-icons ui-2_like"></i>'+
+                        '</div>'+
+                        '<strong>Berhasil!</strong> Komentar anda berhasil terkirim.'+
+                    '</div>';
+        $('#alert-tentang').append(alert);
+        setTimeout(function(){$("#alert-tentang").fadeOut('slow');}, 3000);
+    }
+
+    function emptyForm(){
+        $('input[name=tb_aduan_email]').val('');
+		$('textarea[name=tb_aduan_isi]').val('');
+    }
+</script>

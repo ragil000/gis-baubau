@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="apple-touch-icon" sizes="76x76" href="./assets/img/apple-icon.png">
+    <link rel="icon" type="image/png" href="../img/brand/logo-baubau.png">
+    <title>
+        Login | PERKIM Bau Bau
+    </title>
+    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
+
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+  <!-- CSS Files -->
+  <link href="./assets/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="./assets/css/now-ui-dashboard.css?v=1.3.0" rel="stylesheet" />
+  <!-- CSS Just for demo purpose, don't include it in your project -->
+  <link href="./assets/demo/demo.css" rel="stylesheet" />
+
+  <!-- color picker -->
+  <link rel="stylesheet" href="./assets/css/jquery.colorpicker.bygiro.css">
+
+  <!-- Custom -->
+  <link rel="stylesheet" href="./assets/css/custom.css">
+</head>
+<style>
+    @import url(https://fonts.googleapis.com/css?family=Roboto:300);
+
+    .login-page {
+        width: 360px;
+        padding: 8% 0 0;
+        margin: auto;
+    }
+    .form {
+        position: relative;
+        z-index: 1;
+        background: #FFFFFF;
+        max-width: 360px;
+        margin: 0 auto 100px;
+        padding: 45px;
+        text-align: center;
+        box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+    }
+    .form input {
+        font-family: "Roboto", sans-serif;
+        outline: 0;
+        background: #f2f2f2;
+        width: 100%;
+        border: 0;
+        margin: 0 0 15px;
+        padding: 15px;
+        box-sizing: border-box;
+        font-size: 14px;
+    }
+    .form button {
+        font-family: "Roboto", sans-serif;
+        text-transform: uppercase;
+        outline: 0;
+        background: #FFCC05;
+        width: 100%;
+        border: 0;
+        padding: 15px;
+        color: #FFFFFF;
+        font-size: 14px;
+        -webkit-transition: all 0.3 ease;
+        transition: all 0.3 ease;
+        cursor: pointer;
+    }
+    .form button:hover,.form button:active,.form button:focus {
+        background: #d6ac05;
+    }
+    .form .message {
+        margin: 15px 0 0;
+        color: #b3b3b3;
+        font-size: 12px;
+    }
+    .form .message a {
+        color: #4CAF50;
+        text-decoration: none;
+    }
+    .form .register-form {
+        display: none;
+    }
+    .container {
+        position: relative;
+        z-index: 1;
+        max-width: 300px;
+        margin: 0 auto;
+    }
+    .container:before, .container:after {
+        content: "";
+        display: block;
+        clear: both;
+    }
+    .container .info {
+        margin: 50px auto;
+        text-align: center;
+    }
+    .container .info h1 {
+        margin: 0 0 15px;
+        padding: 0;
+        font-size: 36px;
+        font-weight: 300;
+        color: #1a1a1a;
+    }
+    .container .info span {
+        color: #4d4d4d;
+        font-size: 12px;
+    }
+    .container .info span a {
+        color: #000000;
+        text-decoration: none;
+    }
+    .container .info span .fa {
+        color: #EF3B3A;
+    }
+    body {
+        background: #FFCC05; /* fallback for old browsers */
+        background: -webkit-linear-gradient(right, #e0c246, #FFCC05);
+        background: -moz-linear-gradient(right, #e0c246, #FFCC05);
+        background: -o-linear-gradient(right, #e0c246, #FFCC05);
+        background: linear-gradient(to left, #e0c246, #FFCC05);
+        font-family: "Roboto", sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;      
+    }
+    .login-page img{
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        width: 40%;
+        padding-bottom: 15px;
+    }
+</style>
+<body>
+    
+    <div class="login-page">
+        <img src="../img/brand/logo-baubau.png" alt="">
+        <div class="col-md-12">
+            <div class="alert alert-info" id="message-action">
+                <span><b>Berhasil</b> This is a regular notification made with ".alert-info"</span>
+            </div>
+        </div>
+        <div class="form">
+            <form class="login-form" method="POST">
+                <input type="text" name="tb_admin_username" placeholder="username"/>
+                <input type="password" name="tb_admin_password" placeholder="password"/>
+                <button>Masuk</button>
+            </form>
+        </div>
+    </div>
+
+    <!--   Core JS Files   -->
+    <script src="./assets/js/core/jquery.min.js"></script>
+    <script src="./assets/js/core/popper.min.js"></script>
+    <script src="./assets/js/core/bootstrap.min.js"></script>
+    <script src="./assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>
+    <!-- Chart JS -->
+    <script src="./assets/js/plugins/chartjs.min.js"></script>
+    <!--  Notifications Plugin    -->
+    <script src="./assets/js/plugins/bootstrap-notify.js"></script>
+    <!-- Control Center for Now Ui Dashboard: parallax effects, scripts for the example pages etc -->
+    <script src="./assets/js/now-ui-dashboard.min.js?v=1.3.0" type="text/javascript"></script>
+    <!-- Now Ui Dashboard DEMO methods, don't include it in your project! -->
+    <script src="./assets/demo/demo.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+    <!-- Optional: include a polyfill for ES6 Promises for IE11 and Android browser -->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/promise-polyfill"></script> -->
+
+    <!-- color picker -->
+    <script src="./assets/js/jquery.colorpicker.bygiro.js"></script>
+
+    <!-- Cookie -->
+    <script src="./assets/js/js.cookie.js"></script>
+
+    <!-- API -->
+    <script src="./config.js"></script>
+
+    <script>
+        $(document).ready( function() {
+            cekLogin();
+        });
+
+        function cekLogin(){
+            if(Cookies.get('codexv-session-baubau') != null){
+                // console.log(Cookies.get('codexv-session'));
+                window.location.href = 'index.html';
+            }      
+        }
+
+        $("#message-action").hide();
+        function message(message, status = true){
+            $("#message-action").show();
+            if(status){
+                $("#message-action").attr("class", "alert alert-info");
+            }else{
+                $("#message-action").attr("class", "alert alert-danger");
+            }
+            $("#message-action").html(message);
+            setTimeout(function(){$("#message-action").fadeOut('slow');}, 3000);
+        }
+
+        $(".login-form").submit(function(e){
+            e.preventDefault();
+            let data = $(this).serialize();
+            // console.log(data);
+            return  $.ajax({
+                        type: "POST",
+                        url: config.apiRoot+'login',
+                        dataType: "JSON",
+                        data: data, // serializes the form's elements.
+                        success: function(respon)
+                        {   
+                            console.log(respon);
+                            if(respon.status){
+                                message(respon.pesan, respon.status);
+                                window.location.href = 'index.html';
+                                // setCookie('codexv-session',respon.session,7);
+                                Cookies.set('codexv-session-baubau', respon.username, { expires: 7 });
+                            }else{
+                                message(respon.pesan, respon.status);
+                            }
+                                // console.log(Cookies.get('codexv-session'));
+                        },
+                        error:function(error){
+                            // alert('error');
+                            message(respon.pesan, respon.status);
+                            console.log(error);
+                            // $('#wait').hide();
+                        }
+                    });
+        });
+    </script>
+</body>
+</html>

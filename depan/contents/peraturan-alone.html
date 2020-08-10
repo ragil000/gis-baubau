@@ -1,0 +1,119 @@
+<div class="container" id="peraturan-page">
+    <div class="container">
+        <div id="accordion" role="tablist" aria-multiselectable="true" class="card-collapse">
+            <!-- data -->
+        </div>
+    </div>
+
+    <div class="row ">
+        <div class="col-12 ">
+            <ul class="pagination justify-content-center" id="pagenation2">
+                
+            </ul>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    var link2 = 'baubau/peraturan';
+    var dataAll2 = [];
+    var dataPilih2 = [];
+    var page2 = 1;
+    var jumlahPage2 = 1;
+    
+    $(document).ready( function() {
+        getData2();
+        console.log("Aku Ragilllll");
+    });
+        
+    function getData2(_page2 = 1){
+        page2 = _page2;
+        var url2 = config.apiRoot+link2+'/page-'+page2;
+        loading();
+        return $.ajax({
+            type: "POST",
+            url: url2,
+            dataType: "JSON",
+            data: {
+
+            },
+            success: function(respon){   
+                setDataAll2(respon);
+                dataAll2 = respon.data;
+                jumlahPage2 = respon.jumlahPage;
+                setPagenation2(dataAll2, page2);
+                loading(false);
+            },
+            error:function(error){
+                loading(false);
+            }
+        });
+    }
+
+    function setDataAll2(respon){
+        dataAll2 = respon.data;
+        inputData2(respon.data);		
+    }
+    
+    function inputData2(data){
+        $("#accordion").empty();
+        let i = 1;
+        let url = config.baseUrl;
+        
+        data.forEach(element => {
+            
+            let accordion = '<div class="card card-plain">'+
+                                '<div class="card-header" role="tab" id="heading'+(i)+'">'+
+                                    '<a data-toggle="collapse" data-parent="#accordion" href="#collapse'+(i)+'" aria-expanded="true" aria-controls="collapse'+(i)+'">'+
+                                        '<span>'+element.tb_peraturan_judul+'</span>'+
+                                        '<i class="now-ui-icons arrows-1_minimal-down"></i>'+
+                                    '</a>'+
+                                '</div>'+
+                                '<div id="collapse'+(i)+'" class="collapse" role="tabpanel" aria-labelledby="heading'+(i)+'">'+
+                                    '<div class="card-body">'+
+                                        '<div class="embed-responsive-16by9 embed-responsive">'+
+                                                '<iframe src = "'+url+'ViewerJS/#../../server/upload/pdf/'+element.tb_peraturan_isi+'" class="embed-responsive-item" allowfullscreen webkitallowfullscreen></iframe>'+
+                                        '</div>';
+                                    '</div>'+
+                                '</div>'+
+                            '</div>';
+
+            $("#accordion").append(accordion);
+            i++;
+        });
+    }
+
+    function setPagenation2(data2, _page2){
+        $('#pagenation2').empty();
+        if(_page2 > 1){
+            tempPage2 = '<li class="page-item">'+
+                            '<a class="page-link" href="javascript:void(0);" tabindex="-1" onclick="getData2('+(_page2-1)+')" aria-label="Previous">'+
+                                '<span aria-hidden="true"><i class="fa fa-angle-double-left" aria-hidden="true"></i></span>'+
+                            '</a>'+
+                        '</li>';
+            $('#pagenation2').append(tempPage2);
+        }
+        for(let i = 1; i <= jumlahPage2; i++){
+
+            if(i+2 >= _page2 && i-2 <= _page2){
+                if(i == _page2){
+                tempPage2 = '<li class="page-item active"><a class="page-link" href="javascript:void(0);" onclick="getData2('+i+')">'+i+'</a></li>';
+                }else{
+                tempPage2 = '<li class="page-item"><a class="page-link" href="javascript:void(0);" onclick="getData2('+i+')">'+i+'</a></li>';
+                }
+                $('#pagenation2').append(tempPage2);
+            }
+        
+        }
+        if(_page2 < jumlahPage2){
+            tempPage2 = '<li class="page-item">'+
+                            '<a class="page-link" href="javascript:void(0);" tabindex="-1" onclick="getData2('+(_page2+1)+')" aria-label="Previous">'+
+                                '<span aria-hidden="true"><i class="fa fa-angle-double-right" aria-hidden="true"></i></span>'+
+                            '</a>'+
+                        '</li>';
+            $('#pagenation2').append(tempPage2);
+        }
+    }
+
+</script>

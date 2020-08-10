@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <link rel="apple-touch-icon" sizes="76x76" href="./assets/img/apple-icon.png">
+  <link rel="icon" type="image/png" href="../img/brand/logo-baubau.png">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <title>
+    Pemetaan Kawasan Kumuh | PERKIM Bau Bau
+  </title>
+  <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
+
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+  <!-- CSS Files -->
+  <link href="./assets/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="./assets/css/now-ui-dashboard.css?v=1.3.0" rel="stylesheet" />
+  <!-- CSS Just for demo purpose, don't include it in your project -->
+  <link href="./assets/demo/demo.css" rel="stylesheet" />
+
+  <!-- color picker -->
+  <link rel="stylesheet" href="./assets/css/jquery.colorpicker.bygiro.css">
+
+  <!-- Custom -->
+  <link rel="stylesheet" href="./assets/css/custom.css">
+</head>
+
+<body class="">
+  <div class="wrapper ">
+    <div class="sidebar" data-color="yellow">
+      <!--
+        Tip 1: You can change the color of the sidebar using: data-color="blue | green | orange | red | yellow"
+    -->
+      <div class="logo">
+          <a class="navbar-brand logo-brand" href="index.html" rel="tooltip" title="Klik logo ini untuk kembali ke menu beranda" data-placement="bottom" target="_blank">
+            <img src="../img/brand/logo-baubau.png" alt="logo-baubau">
+          </a>
+      </div>
+      <div class="sidebar-wrapper" id="sidebar-wrapper">
+        <ul class="nav">
+          <li class="menu-atas active ">
+            <a href="#dashboard" onclick="runNavigation(this)">
+              <i class="now-ui-icons design_app"></i>
+              <p>Dashboard</p>
+            </a>
+          </li>
+          <li class="menu-atas">
+            <a href="#galeri-foto" onclick="runNavigation(this)">
+              <i class="now-ui-icons design_image"></i>
+              <p>Galeri Foto</p>
+            </a>
+          </li>
+          <!-- <li class="menu-atas">
+            <a href="#peraturan" onclick="runNavigation(this)">
+              <i class="now-ui-icons files_paper"></i>
+              <p>Peraturan</p>
+            </a>
+          </li> -->
+          <li class="menu-atas">
+            <a href="#basemap" onclick="runNavigation(this)">
+              <i class="now-ui-icons location_map-big"></i>
+              <p>Basemap</p>
+            </a>
+          </li>
+          <!-- <li class="menu-atas">
+            <a href="#baseline" onclick="runNavigation(this)">
+              <i class="now-ui-icons business_bank"></i>
+              <p>Baseline</p>
+            </a>
+          </li> -->
+          <!-- <li class="menu-atas">
+            <a href="#profil-kumuh" onclick="runNavigation(this)">
+              <i class="now-ui-icons design_image"></i>
+              <p>Profil Kumuh</p>
+            </a>
+          </li> -->
+          <!-- <li class="menu-atas">
+            <a href="#galeri-peta" onclick="runNavigation(this)">
+              <i class="now-ui-icons design_image"></i>
+              <p>Galeri Peta</p>
+            </a>
+          </li> -->
+          <li class="menu-atas">
+            <a href="#data-komentar" onclick="runNavigation(this)">
+              <i class="now-ui-icons ui-1_email-85"></i>
+              <p>Data Komentar</p>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="main-panel" id="main-panel">
+      <!-- Navbar -->
+      <nav class="navbar navbar-expand-lg navbar-transparent  bg-primary  navbar-absolute">
+        <div class="container-fluid">
+          <div class="navbar-wrapper">
+            <div class="navbar-toggle">
+              <button type="button" class="navbar-toggler">
+                <span class="navbar-toggler-bar bar1"></span>
+                <span class="navbar-toggler-bar bar2"></span>
+                <span class="navbar-toggler-bar bar3"></span>
+              </button>
+            </div>
+            <a class="navbar-brand" href="#dashbard" onclick="runNavigation(this)">Dashboard</a>
+          </div>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-bar navbar-kebab"></span>
+            <span class="navbar-toggler-bar navbar-kebab"></span>
+            <span class="navbar-toggler-bar navbar-kebab"></span>
+          </button>
+          <div class="collapse navbar-collapse justify-content-end" id="navigation">
+            <!-- <form>
+              <div class="input-group no-border">
+                <input type="text" value="" class="form-control" placeholder="Search...">
+                <div class="input-group-append">
+                  <div class="input-group-text">
+                    <i class="now-ui-icons ui-1_zoom-bold"></i>
+                  </div>
+                </div>
+              </div>
+            </form> -->
+            <ul class="navbar-nav">
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="now-ui-icons users_single-02"></i>
+                  <p>
+                    <span class="d-lg-none d-md-block">Akun</span>
+                  </p>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+                  <a class="dropdown-item" href="#" onclick="logout()">Keluar</a>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+      <!-- End Navbar -->
+      <div class="panel-header panel-header-md">
+      </div>
+
+      <div class="content">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card card-stats">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="statistics">
+                                    <div class="info">
+                                        <div class="icon icon-primary">
+                                            <i class="now-ui-icons ui-2_chat-round"></i>
+                                        </div>
+                                        <h3 class="info-title" id="count-komentar">859</h3>
+                                        <h6 class="stats-title">Komentar</h6>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="statistics">
+                                    <div class="info">
+                                        <div class="icon icon-success">
+                                            <i class="now-ui-icons design_image"></i>
+                                        </div>
+                                        <h3 class="info-title" id="count-galeri">234</h3>
+                                        <h6 class="stats-title">Foto pada Galeri</h6>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="statistics">
+                                    <div class="info">
+                                        <div class="icon icon-info">
+                                            <i class="now-ui-icons business_bank"></i>
+                                        </div>
+                                        <h3 class="info-title" id="count-keldes">562</h3>
+                                        <h6 class="stats-title">Kelurahan/Desa pada Baseline</h6>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="statistics">
+                                    <div class="info">
+                                        <div class="icon icon-danger">
+                                            <i class="now-ui-icons location_map-big"></i>
+                                        </div>
+                                        <h3 class="info-title" id="count-basemap">353</h3>
+                                        <h6 class="stats-title">Data pada Basemap</h6>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+        
+                </div>
+            </div>
+        </div>  
+        <div class="row justify-content-center" id="content">
+            <!-- Content -->
+        </div>
+
+      </div>
+      <footer class="footer">
+        <div class="container-fluid">
+          <nav>
+            <ul>
+              <li>
+                <a href="http://perkim-baubau.com" target="_blank">
+                  GIS PERKIM KOTA BAU BAU
+                </a>
+              </li>
+            </ul>
+          </nav>
+          <div class="copyright" id="copyright">
+            &copy;
+            <script>
+              document.getElementById('copyright').appendChild(document.createTextNode(new Date().getFullYear()))
+            </script>, Develop by
+            <a href="https://www.instagram.com/codexv.group/" target="_blank">CodeXV</a> and
+            <a href="https://www.instagram.com/madukubah/" target="_blank">Madukubah</a>.
+          </div>
+        </div>
+      </footer>
+    </div>
+  </div>
+  <!--   Core JS Files   -->
+  <script src="./assets/js/core/jquery.min.js"></script>
+  <script src="./assets/js/core/popper.min.js"></script>
+  <script src="./assets/js/core/bootstrap.min.js"></script>
+  <script src="./assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>
+  <!-- Chart JS -->
+  <script src="./assets/js/plugins/chartjs.min.js"></script>
+  <!--  Notifications Plugin    -->
+  <script src="./assets/js/plugins/bootstrap-notify.js"></script>
+  <!-- Control Center for Now Ui Dashboard: parallax effects, scripts for the example pages etc -->
+  <script src="./assets/js/now-ui-dashboard.min.js?v=1.3.0" type="text/javascript"></script>
+  <!-- Now Ui Dashboard DEMO methods, don't include it in your project! -->
+  <script src="./assets/demo/demo.js"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+  <!-- Optional: include a polyfill for ES6 Promises for IE11 and Android browser -->
+  <!-- <script src="https://cdn.jsdelivr.net/npm/promise-polyfill"></script> -->
+
+  <!-- color picker -->
+  <script src="./assets/js/jquery.colorpicker.bygiro.js"></script>
+
+  <!-- Cookie -->
+  <script src="./assets/js/js.cookie.js"></script>
+
+  <!-- API -->
+  <script src="./config.js"></script>
+  <script>
+    $(document).ready( function() {
+      getDataUrl();
+      cekLogin(); 
+      countData();
+    });
+
+    /*
+    | function untuk mengecek apakah user sedang login atau tidak.
+    | jika tidak, maka otomatis akan diarahkan ke halaman login.html
+    */ 
+    function cekLogin(){
+      if(Cookies.get('codexv-session-baubau') == null){
+        window.location.href = 'login.html';
+      }      
+    }
+    // end
+
+    function logout(){
+      Cookies.remove('codexv-session-baubau');
+      window.location.href = 'login.html';
+    }
+
+    /*
+    | function untuk membuat hitungan content, bisa dilihat di dashboard admin.
+    | menghitung jumlah komentar, basemap dan lainnya. Silahkan lihat di dashboard saaat pertama kali login
+    */
+    function countData(){
+      return $.ajax({
+                type: "GET",
+                url: config.apiRoot+'countData',
+                dataType: "JSON",
+                data: {}, // serializes the form's elements.
+                success: function(respon)
+                {   
+                  setCountData(respon);
+                },
+                error:function(error){
+                    
+                }
+            });
+    }
+
+    /*
+    | function untuk memasukkan hasil count content kedalam card yang ada di dashboard admin.
+    */
+    function setCountData(respon){
+      $('#count-komentar').html(respon.komentar);
+      $('#count-galeri').html(respon.galeri);
+      $('#count-keldes').html(respon.keldes);
+      $('#count-basemap').html(respon.basemap);
+    }
+    // end
+
+    // untuk mengaktifkan tombol menu saat di klik
+    $('.menu-atas').click(function(){
+      $('.menu-atas').attr('class', 'menu-atas');
+      $(this).attr('class', 'menu-atas active');
+    });
+    
+    loading(false);
+    function loading(loading = true){
+      if(loading){
+        $('#loading').show();
+        $('#main-isi').hide();
+      }else{
+        $('#loading').hide();
+        $('#main-isi').show();
+      }
+    }
+
+    /*
+    | function untuk mengecek url halaman apa yg di klik lalu akan dibuka.
+    | url halaman yg dimaksud ada diatas ditandai dengan #
+    */ 
+    function getDataUrl(){
+      var pageURL = $(location).attr("href");
+      dataUrl = pageURL.split("#");
+      dataUrl = dataUrl[dataUrl.length - 1];
+      loadPage(dataUrl);
+    }
+    // end
+
+    /*
+    | function untuk membuka halaman saat tombol menu di klik.
+    */
+    function runNavigation(obj){
+      let data = $(obj).attr('href');
+      data = data.replace("#", "");
+      loadPage(data);
+    }
+    // end
+
+    /*
+    | function untuk membuka halaman berdasarkan url halaman setelah #.
+    */
+    function loadPage(data){
+      if(data == "galeri-foto"){
+        $("#content").load("contents/galeri-foto.html");
+      }else if(data == "peraturan"){
+        $("#content").load("contents/peraturan.html"); //tidak dipake, sudah dimatikan menunya
+      }else if(data == "basemap"){
+        $("#content").load("contents/basemap.html");
+      }else if(data == "baseline"){
+        $("#content").load("contents/baseline.html"); //tidak dipake, sudah dimatikan menunya
+      }else if(data == "profil-kumuh"){
+        $("#content").load("contents/profil-kumuh.html"); //tidak dipake, sudah dimatikan menunya
+      }else if(data == "galeri-peta"){
+        $("#content").load("contents/galeri-peta.html"); //tidak dipake, sudah dimatikan menunya
+      }else if(data == "data-komentar"){
+        $("#content").load("contents/data-komentar.html");
+      }
+    }
+    // end
+
+    /*
+    | function untuk membuat daftar halaman data. Yaitu nomor nomor halaman yang ada dibawah
+    */
+    function setPagenation(data, _page){
+      $('#pagenation').empty();
+      if(_page > 1){
+        tempPage = '<li class="page-item">'+
+                        '<a class="page-link" href="javascript:void(0);" tabindex="-1" onclick="getData('+(_page-1)+')" aria-label="Previous">'+
+                            '<span aria-hidden="true"><i class="fa fa-angle-double-left" aria-hidden="true"></i></span>'+
+                        '</a>'+
+                    '</li>';
+        $('#pagenation').append(tempPage);
+      }
+      for(let i = 1; i <= jumlahPage; i++){
+
+        if(i+2 >= _page && i-2 <= _page){
+        if(i == _page){
+            tempPage = '<li class="page-item active"><a class="page-link" href="javascript:void(0);" onclick="getData('+i+')">'+i+'</a></li>';
+        }else{
+            tempPage = '<li class="page-item"><a class="page-link" href="javascript:void(0);" onclick="getData('+i+')">'+i+'</a></li>';
+        }
+        $('#pagenation').append(tempPage);
+        }
+        
+      }
+      if(_page < jumlahPage){
+        tempPage = '<li class="page-item">'+
+                        '<a class="page-link" href="javascript:void(0);" tabindex="-1" onclick="getData('+(_page+1)+')" aria-label="Previous">'+
+                            '<span aria-hidden="true"><i class="fa fa-angle-double-right" aria-hidden="true"></i></span>'+
+                        '</a>'+
+                    '</li>';
+        $('#pagenation').append(tempPage);
+      }
+    }
+    // end
+    
+    /*
+    | function untuk mengambil atau mengirim data dari database melalui server.
+    */
+    function sendAjax(url, dataKirim){
+      loading();
+      return $.ajax({
+        type: "POST",
+        url: url,
+        dataType: "JSON",
+        data: dataKirim, 
+        success: function(respon){   
+          if(respon.status){
+            message(respon.pesan);
+          }
+          console.log('ini respon'+respon);
+          loading(false);
+        },
+        error:function(error){
+          console.log(error);
+          loading(false);
+        }
+      });
+    }
+    // end
+  </script>
+</body>
+
+</html>

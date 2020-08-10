@@ -1,0 +1,143 @@
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <h3 class="title">Galeri Peta</h3>
+        </div>
+    </div>
+
+    <div class="row" id="data-atas">
+        <!-- data -->
+
+        <!-- <div class="col-md-4">
+            <img class="rounded img-raised" alt="Raised Image" src="./assets/img/bg4.jpg">
+        </div>
+        <div class="col-md-4">
+            <img class="rounded img-raised" alt="Raised Image" src="./assets/img/bg6.jpg">
+        </div> -->
+    </div>
+    <div class="row" id="data-bawah">
+        <!-- data -->
+
+        <!-- <div class="col-md-6 pt-4">
+            <img class="rounded img-raised" alt="Raised Image" src="./assets/img/bg11.jpg">
+        </div> -->
+    </div>
+
+    <div class="row">
+        <div class="col-12 ">
+            <ul class="pagination justify-content-center pt-4" id="pagenation5">
+                <ul class="pagination justify-content-center">
+                    <li class="page-item">
+                    <a class="page-link" href="#link" aria-label="Previous">
+                        <span aria-hidden="true"><i class="fa fa-angle-double-left" aria-hidden="true"></i></span>
+                    </a>
+                    </li>
+                    <li class="page-item"><a class="page-link" href="#link">1</a></li>
+                    <li class="page-item active"><a class="page-link" href="#link">2</a></li>
+                    <li class="page-item"><a class="page-link" href="#link">3</a></li>
+                    <li class="page-item">
+                    <a class="page-link" href="#link" aria-label="Next">
+                        <span aria-hidden="true"><i class="fa fa-angle-double-right" aria-hidden="true"></i></span>
+                    </a>
+                    </li>
+                </ul>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    var link5 = 'baubau/galeri-peta';
+    var dataAll5 = [];
+    var dataPilih5 = [];
+    var page5 = 1;
+    var jumlahPage5 = 1;
+    
+    $(document).ready( function() {
+        getData5();
+    });
+        
+    function getData5(_page5 = 1){
+        page5 = _page5;
+        var url5 = config.apiRoot+link5+'/page-'+page5;
+        loading();
+        return $.ajax({
+            type: "POST",
+            url: url5,
+            dataType: "JSON",
+            data: {
+
+            },
+            success: function(respon){   
+                setDataAll5(respon);
+                dataAll5 = respon.data;
+                jumlahPage5 = respon.jumlahPage;
+                setPagenation5(dataAll5, page5);
+                loading(false);
+            },
+            error:function(error){
+                loading(false);
+            }
+        });
+    }
+
+    function setDataAll5(respon){
+        dataAll5 = respon.data;
+        inputData5(respon.data);		
+    }
+    
+    function inputData5(data){
+        $("#data-atas").empty();
+        $("#data-bawah").empty();
+        let i = 1;
+        data.forEach(element => {
+            if( i <= 3){
+                let row =   '<div class="col-md-4">'+
+                                '<img class="rounded img-raised" alt="Raised Image" src="'+config.apiRoot+'/upload/peta/'+element.tb_peta_gambar+'">'+
+                            '</div>';
+                $("#data-atas").append(row);
+            }else{
+                let row =   '<div class="col-md-6 pt-4">'+
+                                '<img class="rounded img-raised" alt="Raised Image" src="'+config.apiRoot+'/upload/peta/'+element.tb_peta_gambar+'">'+
+                            '</div>';
+                $("#data-bawah").append(row);
+            }
+            i++;
+            // console.log(i++);
+        });
+    }
+
+    function setPagenation5(data1, _page5){
+      $('#pagenation5').empty();
+      if(_page5 > 1){
+        tempPage5 = '<li class="page-item">'+
+                        '<a class="page-link" href="javascript:void(0);" tabindex="-1" onclick="getData5('+(_page5-1)+')" aria-label="Previous">'+
+                            '<span aria-hidden="true"><i class="fa fa-angle-double-left" aria-hidden="true"></i></span>'+
+                        '</a>'+
+                    '</li>';
+        $('#pagenation5').append(tempPage5);
+      }
+      for(let i = 1; i <= jumlahPage5; i++){
+
+        if(i+2 >= _page5 && i-2 <= _page5){
+        if(i == _page5){
+            tempPage5 = '<li class="page-item active"><a class="page-link" href="javascript:void(0);" onclick="getData5('+i+')">'+i+'</a></li>';
+        }else{
+            tempPage5 = '<li class="page-item"><a class="page-link" href="javascript:void(0);" onclick="getData5('+i+')">'+i+'</a></li>';
+        }
+        $('#pagenation5').append(tempPage5);
+        }
+        
+      }
+      if(_page5 < jumlahPage5){
+        tempPage5 = '<li class="page-item">'+
+                        '<a class="page-link" href="javascript:void(0);" tabindex="-1" onclick="getData5('+(_page5+1)+')" aria-label="Previous">'+
+                            '<span aria-hidden="true"><i class="fa fa-angle-double-right" aria-hidden="true"></i></span>'+
+                        '</a>'+
+                    '</li>';
+        $('#pagenation5').append(tempPage5);
+      }
+    }
+
+</script>

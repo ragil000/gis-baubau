@@ -1,0 +1,206 @@
+<div class="container">
+  <div class="row">
+      <div class="col-12">
+      <h3 class="title">Basemap Kota Bau Bau</h3>
+      </div>
+      <div class="col-md-12">
+        <a class="btn btn-primary" href="map.html" target="_blank">Tampilkan Lebih Luas</a>
+        <div class="card card-map">
+          <div class="card-body ">
+              <img id="wind-direction" style="width: 50px; height: auto; display: block; top: 10px;" src="../server/upload/galeri/wind-rose.png" alt="">
+              <div id='map' class="map"></div>
+              <div class='map-overlay' id='legend'></div>
+          </div>
+        </div>
+      </div>
+  </div>
+</div>
+
+<script>
+
+  /*
+  | tahap awal untuk menggunakan fungsi fungsi pada mapbox.
+  | yaitu memanggil fungsi fungsi mapbox dengan token yg didapat saat mendaftar akun di mapbox.com
+  */
+  mapboxgl.accessToken = 'pk.eyJ1IjoiZmFraHJhd3kiLCJhIjoiY2pscWs4OTNrMmd5ZTNra21iZmRvdTFkOCJ9.15TZ2NtGk_AtUvLd27-8xA';
+  // end
+
+  // longitude dan lattitude kota baubau
+  var baubau = [122.599521, -5.468334];
+  // end
+
+  var link = 'baubau/basemap';
+  
+  /*
+  | mendefinisikan map, proses pemanggilan map pada mapbox.
+  */
+  var map = new mapboxgl.Map({
+      container: 'map',
+      style: 'mapbox://styles/mapbox/streets-v9',
+      center: baubau,
+      zoom: 9
+  });
+
+  map.on('load', function() {
+    
+    let url = config.apiRoot+link+'/getAllData';
+    
+    /*
+    | proses mengambil data geojson dari database melalui server dengan ajax.
+    */
+    $.ajax({
+			type: "POST",
+			url: url,
+			dataType: "JSON",
+			data: {
+
+			},
+			success: function(respon){   
+				
+        /*
+        | setelah data didapatkan, maka akan dilakukan proses looping untuk menampilkan semua data geojsonnya.
+        | yang kemudian akan di render oleh mapbox menjadi tampilan polygon di map
+        */
+				for (let i = 0; i < Object.keys(respon).length; i++) {
+          // memanggil fungsi untuk merender file geojson
+          legendMap(Object.values(respon)[i].tb_basemap_nama, Object.values(respon)[i].tb_basemap_file, Object.values(respon)[i].tb_basemap_tipe, Object.values(respon)[i].tb_basemap_warna, Object.values(respon)[i]);
+        }
+        // end
+
+				loading(false);
+			},
+			error:function(error){
+				console.log(error);
+				loading(false);
+			}
+    });
+    // end
+
+    map.getCanvas().style.cursor = 'default';
+  });
+
+  /*
+  | function untuk merender file geojson.
+  */
+  function legendMap(names, files, types, colors, data){
+      let url = config.apiRoot+'upload/geojson/';
+      var name = names;
+      var file = files;
+      var fileName = file.replace(".geojson", "");
+      // alert(fileName);
+      var type = types;
+      var color = colors;
+      var item = document.createElement('div');
+      var key = document.createElement('span');
+      key.className = 'legend-key';
+      key.style.backgroundColor = color;
+
+      var terlihat = document.createAttribute('terlihat');
+      terlihat.value = 'none';
+      visCssClass = 'active';
+
+      var value = document.createElement('a');
+      value.href = "#";
+      value.className = visCssClass;
+
+      if(type === 'polygon'){
+
+          // proses merender file geojson untuk menjadi interface polygon dalam map
+          map.addLayer({
+              'id': fileName,
+              'type': 'fill',
+              'name': fileName,
+              'source': {
+                  'type': 'geojson',
+                  'data': url+file,
+              },
+              'layout': {},
+              'paint': {
+                  'fill-color': color,
+                  'fill-opacity': 0.8
+              }
+          });
+          // end
+
+          // proses pembuatan popup informasi ketika polygon tersebut di klik
+          let popup = '<img class="card-img-top" style="object-fit:cover; width:100%; heigth:30px;" src="../server/upload/galeri/'+data.tb_basemap_gambar+'" alt="Card image cap">'+
+                      '<strong>'+data.tb_basemap_nama+'</strong>'+
+                      '<div class="content-text mb-0 pb-0">'+
+                        '<p style="margin-block-start:0;">'+data.tb_basemap_deskripsi+'</p>'
+                      '</div>'
+                      
+          map.on('click', fileName, function(e) {
+            new mapboxgl.Popup()
+            .setLngLat(e.lngLat)
+            .setHTML(popup)
+            .addTo(map);
+          });
+
+          // Change the cursor to a pointer when the mouse is over the states layer.
+          map.on('mouseenter', fileName, function() {
+            map.getCanvas().style.cursor = 'pointer';
+          });
+          
+          // Change it back to a pointer when it leaves.
+          map.on('mouseleave', fileName, function() {
+            map.getCanvas().style.cursor = '';
+          });
+          // end
+
+      }else if(type === 'line'){
+
+          // proses merender file geojson untuk menjadi interface line dalam map
+          map.addLayer({
+              'id': fileName,
+              'type': type,
+              'name': fileName,
+              'source': {
+                  'type': 'geojson',
+                  'data': url+file,
+              },
+              "paint": {
+              "line-color": color,
+              "line-width": 1
+              }
+          });
+          // end
+      }
+
+      /*
+      | proses memasukkan data kedalam legenda map. Informasi nama dan warna polygon
+      | pada sebelah kanan bawah map
+      */
+      map.setLayoutProperty(fileName, 'visibility', 'visible');
+      value.onclick = function (e) {
+              
+        e.preventDefault();
+        e.stopPropagation();
+
+        let visibility = $(this).attr("terlihat");
+        console.log(visibility);
+        if (visibility === 'visible') {
+            map.setLayoutProperty(fileName, 'visibility', 'visible');
+            this.className = 'active';
+            terlihat.value = '';
+        } else {
+            this.className = '';
+            map.setLayoutProperty(fileName, 'visibility', 'none');
+            terlihat.value = 'visible';
+        }
+      };
+
+      var nameLegend = document.createElement('span');
+      nameLegend.innerHTML = name;
+
+      value.setAttributeNode(terlihat);
+      value.appendChild(key);
+      value.appendChild(nameLegend);
+      item.appendChild(value);
+      legend.appendChild(item);
+      // end
+  }
+  // end
+
+  $('.mapboxgl-canvas').css("position", "relative");
+  
+</script>

@@ -1,0 +1,174 @@
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+        <h3 class="title">Baseline Kawasan Kumuh</h3>
+        </div>
+    </div>
+
+    <table class="table" style="font-size: 10px; color: black;">
+        <thead class="text-primary" style="text-align: center;">
+            <tr>
+                <th>NAMA KELURAHAN/DES</th>
+                <th>LUAS KUMUH_KEL  SK (Ha)</th>
+                <th>LUAS KUMUH_KEL PAD (Ha)</th>
+                <th>NAMA RTRW KUMUH</th>
+                <th>LUAS RTRW KUMUH (Ha)</th>
+                <th>NILAI KUMUH AWAL</th>
+                <th>TINGKAT KEKUMUHAN AWAL</th>
+                <th>NILAI KUMUH AKHIR</th>
+                <th>TINGKAT KEKUMUHAN AKHIR</th>
+                <th>LUAS PENGURANGAN KUMUH</th>
+                <th>SISA LUAS KUMUH</th>
+                <th>TAHUN</th>
+            </tr>
+        </thead>
+        <tbody id="baseline-data">
+            <!-- data -->
+        </tbody>
+    </table>
+
+    <div class="row ">
+        <div class="col-12 ">
+            <ul class="pagination justify-content-center" id="pagenation3">
+                <ul class="pagination justify-content-center">
+                    <li class="page-item">
+                    <a class="page-link" href="#link" aria-label="Previous">
+                        <span aria-hidden="true"><i class="fa fa-angle-double-left" aria-hidden="true"></i></span>
+                    </a>
+                    </li>
+                    <li class="page-item"><a class="page-link" href="#link">1</a></li>
+                    <li class="page-item active"><a class="page-link" href="#link">2</a></li>
+                    <li class="page-item"><a class="page-link" href="#link">3</a></li>
+                    <li class="page-item">
+                    <a class="page-link" href="#link" aria-label="Next">
+                        <span aria-hidden="true"><i class="fa fa-angle-double-right" aria-hidden="true"></i></span>
+                    </a>
+                    </li>
+                </ul>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    var link3 = 'baubau/baseline';
+    var dataAll3 = [];
+    var dataPilih3 = [];
+    var page3 = 1;
+    var jumlahPage3 = 1;
+    
+    $(document).ready( function() {
+        getData3();
+    });
+        
+    function getData3(_page3 = 1){
+        page3 = _page3;
+        var url3 = config.apiRoot+link3+'/page-'+page3;
+        loading();
+        return $.ajax({
+            type: "POST",
+            url: url3,
+            dataType: "JSON",
+            data: {
+
+            },
+            success: function(respon){   
+                setDataAll3(respon);
+                dataAll3 = respon.data;
+                jumlahPage3 = respon.jumlahPage;
+                setPagenation3(dataAll3, page3);
+                loading(false);
+            },
+            error:function(error){
+                loading(false);
+            }
+        });
+    }
+
+    function setDataAll3(respon){
+        dataAll3 = respon.data;
+        inputData3(respon.data);		
+    }
+    
+    function inputData3(data){
+        $("#baseline-data").empty();
+        let i = 1;
+        data.forEach(element => {
+            
+            let row =   '<tr>'+
+                            '<td>'+
+                                '<p>'+element.tb_baseline_keldes+'</p>'+
+                            '</td>'+
+                            '<td>'+
+                                '<p>'+element.tb_baseline_luas_keldes_sk+'</p>'+
+                            '</td>'+
+                            '<td>'+
+                                '<p>'+element.tb_baseline_luas_keldes_pad+'</p>'+
+                            '</td>'+
+                            '<td>'+
+                                '<p>'+element.tb_baseline_rtrw+'</p>'+
+                            '</td>'+
+                            '<td>'+
+                                '<p>'+element.tb_baseline_luas_rtrw+'</p>'+
+                            '</td>'+
+                            '<td>'+
+                                '<p>'+element.tb_baseline_nilai_kumuh_awal+'</p>'+
+                            '</td>'+
+                            '<td>'+
+                                '<p>'+element.tb_baseline_kumuh_awal+'</p>'+
+                            '</td>'+
+                            '<td>'+
+                                '<p>'+element.tb_baseline_nilai_kumuh_akhir+'</p>'+
+                            '</td>'+
+                            '<td>'+
+                                '<p>'+element.tb_baseline_kumuh_akhir+'</p>'+
+                            '</td>'+
+                            '<td>'+
+                                '<p>'+element.tb_baseline_luas_pengurangan+'</p>'+
+                            '</td>'+
+                            '<td>'+
+                                '<p>'+element.tb_baseline_sisa_luas+'</p>'+
+                            '</td>'+
+                            '<td>'+
+                                '<p>'+element.tb_baseline_tahun+'</p>'+
+                            '</td>'+
+                        '</tr>';
+
+            $("#baseline-data").append(row);
+        });
+    }
+
+    function setPagenation3(data1, _page3){
+      $('#pagenation3').empty();
+      if(_page3 > 1){
+        tempPage3 = '<li class="page-item">'+
+                        '<a class="page-link" href="javascript:void(0);" tabindex="-1" onclick="getData3('+(_page3-1)+')" aria-label="Previous">'+
+                            '<span aria-hidden="true"><i class="fa fa-angle-double-left" aria-hidden="true"></i></span>'+
+                        '</a>'+
+                    '</li>';
+        $('#pagenation3').append(tempPage3);
+      }
+      for(let i = 1; i <= jumlahPage3; i++){
+
+        if(i+2 >= _page3 && i-2 <= _page3){
+        if(i == _page3){
+            tempPage3 = '<li class="page-item active"><a class="page-link" href="javascript:void(0);" onclick="getData3('+i+')">'+i+'</a></li>';
+        }else{
+            tempPage3 = '<li class="page-item"><a class="page-link" href="javascript:void(0);" onclick="getData3('+i+')">'+i+'</a></li>';
+        }
+        $('#pagenation3').append(tempPage3);
+        }
+        
+      }
+      if(_page3 < jumlahPage3){
+        tempPage3 = '<li class="page-item">'+
+                        '<a class="page-link" href="javascript:void(0);" tabindex="-1" onclick="getData3('+(_page3+1)+')" aria-label="Previous">'+
+                            '<span aria-hidden="true"><i class="fa fa-angle-double-right" aria-hidden="true"></i></span>'+
+                        '</a>'+
+                    '</li>';
+        $('#pagenation3').append(tempPage3);
+      }
+    }
+
+</script>

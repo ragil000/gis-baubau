@@ -1,0 +1,444 @@
+<div class="col-md-12">
+    <div class="alert alert-info" id="message-action">
+        <span><b>Berhasil</b> This is a regular notification made with ".alert-info"</span>
+    </div>
+</div>
+<div class="col-md-12">
+    <div class="card">
+        <div class="card-body">
+            <div class="card-title">
+                <h5 class="title">Tambahkan Baseline</h5>
+            </div>
+            <br>
+            <form id="form-baseline" action="" enctype="multipart/form-data" method="POST">                    
+                    <div class="col-md-12 justify-content-center-end">
+                        <div class="row">
+                            <div class="col-md-6 pr-2">
+                                <label>NAMA KELURAHAN/DESA</label>
+                                <div class="input-group">
+                                  <input type="text" name="tb_baseline_keldes" class="form-control" placeholder="Keluahan/Desa" aria-label="Kelurahan/Desa">
+                                </div>
+                            </div>
+                            <div class="col-md-6 pl-2">
+                                <div class="form-group">
+                                    <label>LUAS KEL/DES KUMUH SK (Ha)</label>
+                                    <div class="input-group">
+                                      <input type="text" name="tb_baseline_luas_keldes_sk" class="form-control" placeholder="0" aria-label="0">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 pr-2">
+                                <label>LUAS KEL/DES KUMUH PAD (Ha)</label>
+                                <div class="input-group">
+                                  <input type="text" name="tb_baseline_luas_keldes_pad" class="form-control" placeholder="0" aria-label="0">
+                                </div>
+                            </div>
+                            <div class="col-md-6 pl-2">
+                                <div class="form-group">
+                                    <label>NAMA RTRW KUMUH</label>
+                                    <div class="input-group">
+                                      <input type="text" name="tb_baseline_rtrw" class="form-control" placeholder="RT00-RW00" aria-label="RT00-RW00">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 pr-2">
+                                <label>LUAS RTRW KUMUH (Ha)</label>
+                                <div class="input-group">
+                                  <input type="text" name="tb_baseline_luas_rtrw" class="form-control" placeholder="0" aria-label="0">
+                                </div>
+                            </div>
+                            <div class="col-md-6 pl-2">
+                                <div class="form-group">
+                                    <label>NILAI KUMUH AWAL</label>
+                                    <div class="input-group">
+                                      <input type="text" name="tb_baseline_nilai_kumuh_awal" class="form-control" placeholder="0" aria-label="0">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 pr-2">
+                                <div class="form-group">
+                                    <label for="inputType">TINGKAT KEKUMUHAN AWAL</label>
+                                    <select id="inputType1" name="tb_baseline_kumuh_awal" class="form-control">
+                                        <option value="Tidak_Kumuh" selected>Tidak Kumuh</option>
+                                        <option value="Kumuh_Ringan">Kumuh Ringan</option>
+                                        <option value="Kumuh_Sedang">Kumuh Sedang</option>
+                                        <option value="Kumuh_Berat">Kumuh Berat</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6 pl-2">
+                                <div class="form-group">
+                                    <label>NILAI KUMUH AKHIR</label>
+                                    <div class="input-group">
+                                      <input type="text" name="tb_baseline_nilai_kumuh_akhir" class="form-control" placeholder="0" aria-label="0">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 pr-2">
+                                <div class="form-group">
+                                    <label for="inputType">TINGKAT KEKUMUHAN AKHIR</label>
+                                    <select id="inputType2" name="tb_baseline_kumuh_akhir" class="form-control">
+                                        <option value="Tidak_Kumuh" selected>Tidak Kumuh</option>
+                                        <option value="Kumuh_Ringan">Kumuh Ringan</option>
+                                        <option value="Kumuh_Sedang">Kumuh Sedang</option>
+                                        <option value="Kumuh_Berat">Kumuh Berat</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6 pl-2">
+                                <div class="form-group">
+                                    <label>LUAS PENGURANGAN KUMUH</label>
+                                    <div class="input-group">
+                                      <input type="text" name="tb_baseline_luas_pengurangan" class="form-control" placeholder="0" aria-label="0">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 pl-2">
+                                <div class="form-group">
+                                    <label>SISA LUAS KUMUH</label>
+                                    <div class="input-group">
+                                      <input type="text" name="tb_baseline_sisa_luas" class="form-control" placeholder="0" aria-label="0">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 pl-2">
+                                <div class="form-group">
+                                    <label>TAHUN</label>
+                                    <div class="input-group">
+                                      <input type="text" name="tb_baseline_tahun" class="form-control" placeholder="2000" aria-label="2000">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <input type="submit" id="btn-submit" class="btn btn-info" value="Simpan Baseline">
+                        <input type="button" id="btn-batal" onclick="_batal()" class="btn btn-default" value="Batal" hidden>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="col-md-12">
+    <div class="card">
+        <div class="card-header">
+            <h4 class="card-title">Daftar Baseline</h4>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table">
+                    <thead class="text-primary" style="font-size: 10px;">      
+                        <tr>
+                            <th class="text-center">NAMA KELURAHAN/DESA</th>
+                            <th class="text-center">LUAS KUMUH KEL/DES SK (Ha)</th>
+                            <th class="text-center">LUAS KUMUH KEL/DES PAD (Ha)</th>
+                            <th class="text-center">NAMA RTRW KUMUH</th>
+                            <th class="text-center">LUAS RTRW KUMUH (Ha)</th>
+                            <th class="text-center">NILAI KUMUH AWAL</th>
+                            <th class="text-center">TINGKAT KEKUMUHAN AWAL</th>
+                            <th class="text-center">NILAI KUMUH AKHIR</th>
+                            <th class="text-center">TINGKAT KEKUMUHAN AKHIR</th>
+                            <th class="text-center">LUAS PENGURANGAN KUMUH</th>
+                            <th class="text-center">SISA LUAS KUMUH</th>
+                            <th class="text-center">TAHUN</th>
+                            <th class="text-center">AKSI</th>
+                        </tr>
+                    </thead>
+                    <tbody id="data-table">             
+                        <!-- data table -->
+                    </tbody>
+                </table>
+                <hr>
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination" id="pagenation">
+                        <li class="page-item"><a class="page-link" href="#"><i class="fas fa-angle-double-left"></i></a></li>
+                        <li class="page-item"><a class="page-link" href="#">1</a></li>
+                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                        <li class="page-item"><a class="page-link" href="#"><i class="fas fa-angle-double-right"></i></a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var link = 'baubau/baseline';
+	var dataAll = [];
+	var dataPilih = [];
+	var page = 1;
+	var jumlahPage = 1;
+	
+	$(document).ready( function() {
+        getData();
+        $("#form-baseline").attr("action", config.apiRoot+link+'/create');
+        // $('#inputType1 option[value=Kumuh_Ringan]').attr("selected", "");
+        // $('#inputType2 option[value=Kumuh_Ringan]').attr("selected", "");
+	});
+
+    $("#message-action").hide();
+    function message(message, status = true){
+        $("#message-action").show();
+        if(status){
+            $("#message-action").attr("class", "alert alert-info");
+        }else{
+            $("#message-action").attr("class", "alert alert-danger");
+        }
+        $("#message-action").html(message);
+        setTimeout(function(){$("#message-action").fadeOut('slow');}, 3000);
+    }
+
+    // url = config.apiRoot+link+'/create';
+    $("#form-baseline").on("submit", function(e){
+      e.preventDefault();
+    //   var data = new FormData(this);
+    //   console.log(data);
+    let url = $("#form-baseline").attr("action");
+      $.ajax({
+        method : 'POST',
+        url : url,
+        dataType : 'JSON',
+        data : new FormData(this),
+        contentType : false,
+        cache : false,
+        processData : false,
+        success : function(respon){
+            message(respon.pesan, respon.status);
+            emptyForm();
+            getData();
+            _batal();
+            console.log(respon);
+        },error: function(respon){
+            message(respon.pesan, respon.status);
+            console.log(respon);
+        }
+      });
+    });
+
+    function getData(_page = 1){
+		console.log("aku getData");
+		page = _page;
+		var url = config.apiRoot+link+'/page-'+page;
+		console.log(url)
+		loading();
+		return $.ajax({
+			type: "POST",
+			url: url,
+			dataType: "JSON",
+			data: {
+
+			},
+			success: function(respon){   
+				setDataAll(respon);
+				dataAll = respon.data;
+				jumlahPage = respon.jumlahPage;
+				setPagenation(dataAll, page);
+				console.log(respon);
+				loading(false);
+			},
+			error:function(error){
+				console.log(error);
+				loading(false);
+			}
+		});
+	}
+	
+	// $( "#form-data" ).submit(function( event ) {
+		
+	// 	event.preventDefault();
+	// 	form = $(this);
+	// 	url = form.attr('action');
+	// 	let data = form.serializeArray();
+	// 	console.log(url);
+		
+	// 	$('#modal-form').modal('hide');
+	// 	$.when(sendAjax(url, data)).done(function(a1){
+	// 		getData();
+	// 	});
+
+	// });
+
+	function setDataAll(respon){
+		dataAll = respon.data;
+		inputData(respon.data);
+	}
+	
+	function inputData(data){
+		$("#data-table").empty();
+		console.log(data);
+		let i = 1;
+		data.forEach(element => {
+			
+			let row =   '<tr>'+
+                            '<td>'+
+                                '<p>'+element.tb_baseline_keldes+'</p>'+
+                            '</td>'+
+                            '<td>'+
+                                '<p>'+element.tb_baseline_luas_keldes_sk+'</p>'+
+                            '</td>'+
+                            '<td>'+
+                                '<p>'+element.tb_baseline_luas_keldes_pad+'</p>'+
+                            '</td>'+
+                            '<td>'+
+                                '<p>'+element.tb_baseline_rtrw+'</p>'+
+                            '</td>'+
+                            '<td>'+
+                                '<p>'+element.tb_baseline_luas_rtrw+'</p>'+
+                            '</td>'+
+                            '<td>'+
+                                '<p>'+element.tb_baseline_nilai_kumuh_awal+'</p>'+
+                            '</td>'+
+                            '<td>'+
+                                '<p>'+element.tb_baseline_kumuh_awal+'</p>'+
+                            '</td>'+
+                            '<td>'+
+                                '<p>'+element.tb_baseline_nilai_kumuh_akhir+'</p>'+
+                            '</td>'+
+                            '<td>'+
+                                '<p>'+element.tb_baseline_kumuh_akhir+'</p>'+
+                            '</td>'+
+                            '<td>'+
+                                '<p>'+element.tb_baseline_luas_pengurangan+'</p>'+
+                            '</td>'+
+                            '<td>'+
+                                '<p>'+element.tb_baseline_sisa_luas+'</p>'+
+                            '</td>'+
+                            '<td>'+
+                                '<p>'+element.tb_baseline_tahun+'</p>'+
+                            '</td>'+
+                            '<td class="text-right">'+
+                                '<button type="button" rel="tooltip" idData="'+element.id_tb_baseline+'" onclick="_update(this)" class="btn btn-success btn-icon btn-sm " data-original-title="" title="">'+
+                                    '<i class="now-ui-icons ui-2_settings-90"></i>'+
+                                '</button>'+
+                                '<button type="button" rel="tooltip" idData="'+element.id_tb_baseline+'" onclick="_delete(this)" class="btn btn-danger btn-icon btn-sm " data-original-title="" title="">'+
+                                    '<i class="now-ui-icons ui-1_simple-remove"></i>'+
+                                '</button>'+
+                            '</td>'+
+                        '</tr>';
+
+			$("#data-table").append(row);
+		});
+	}
+
+    function _delete(obj){
+        let idData = $(obj).attr('idData');
+        Swal.fire({
+            title: 'Apakah anda yakin?',
+            text: "Data akan terhapus secara permanent",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ya, hapus data',
+        }).then((result) => {
+            console.log(result);
+            if (result.value) {
+                if(doDelete(idData)){
+                    Swal.fire(
+                        'Data terhapus!',
+                        'Data anda terhapus permanent.',
+                        'success'
+                    );
+                }
+            }
+        })
+    }
+
+    function doDelete(idData){
+		url = config.apiRoot+link+'/delete/'+idData;
+        console.log(url);
+		$.when(sendAjax(url, {})).done(function(a1){
+            console.log(a1);
+			getData();
+		});
+
+        return true;
+	}
+
+    function _update(obj){
+		let idData = $(obj).attr('idData');
+
+		$("#form-baseline").attr("action", config.apiRoot+link+'/update/'+idData);
+		let data = getDataById(idData);
+
+		emptyForm();
+		inputForm(data);
+	}
+	
+	function getDataById(idData){
+		dataAll.forEach(element => {
+			if(element.id_tb_baseline === idData){
+				dataPilih = element;
+			}
+		});
+		return dataPilih;
+	}
+	
+	function inputForm(data){
+
+        $('input[name=tb_baseline_keldes]').val(data.tb_baseline_keldes);
+        $('input[name=tb_baseline_luas_keldes_sk]').val(data.tb_baseline_luas_keldes_sk);
+        $('input[name=tb_baseline_luas_keldes_pad]').val(data.tb_baseline_luas_keldes_pad);
+        $('input[name=tb_baseline_rtrw]').val(data.tb_baseline_rtrw);
+        $('input[name=tb_baseline_luas_rtrw]').val(data.tb_baseline_luas_rtrw);
+        $('input[name=tb_baseline_nilai_kumuh_awal]').val(data.tb_baseline_nilai_kumuh_awal);
+        
+        $('#inputType1 option[value='+data.tb_baseline_kumuh_awal+']').attr("selected", "");
+        
+        $('input[name=tb_baseline_nilai_kumuh_akhir]').val(data.tb_baseline_nilai_kumuh_akhir);
+        
+        $('#inputType2 option[value='+data.tb_baseline_kumuh_akhir+']').attr("selected", "");
+
+        $('input[name=tb_baseline_luas_pengurangan]').val(data.tb_baseline_luas_pengurangan);
+        $('input[name=tb_baseline_sisa_luas]').val(data.tb_baseline_sisa_luas);
+        $('input[name=tb_baseline_tahun]').val(data.tb_baseline_tahun);
+
+        $('#btn-submit').val('Ubah');
+        $('#btn-batal').removeAttr('hidden');
+    }
+    
+    function _batal(){
+        emptyForm();
+        $("#form-baseline").attr("action", config.apiRoot+link+'/create');
+        $('#btn-submit').val('Simpan Baseline');
+        $('#btn-batal').attr('hidden', '');
+    }
+
+	function emptyForm(){
+
+		$('input[name=tb_baseline_keldes]').val('');
+        $('input[name=tb_baseline_luas_keldes_sk]').val('');
+        $('input[name=tb_baseline_luas_keldes_pad]').val('');
+        $('input[name=tb_baseline_rtrw]').val('');
+        $('input[name=tb_baseline_luas_rtrw]').val('');
+        $('input[name=tb_baseline_nilai_kumuh_awal]').val('');
+        
+        $('#inputType1 option').removeAttr('selected');
+        
+        $('input[name=tb_baseline_nilai_kumuh_akhir]').val('');
+        
+        $('#inputType2 option').removeAttr('selected');
+
+        $('input[name=tb_baseline_luas_pengurangan]').val('');
+        $('input[name=tb_baseline_sisa_luas]').val('');
+        $('input[name=tb_baseline_tahun]').val('');
+	}
+    
+</script>

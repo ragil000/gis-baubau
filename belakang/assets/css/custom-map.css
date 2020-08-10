@@ -1,0 +1,60 @@
+.map-overlay {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    background: rgba(255, 255, 255, 0.8);
+    margin-right: 20px;
+    font-family: Arial, sans-serif;
+    overflow: auto;
+    border-radius: 3px;
+}
+
+#legend {
+    padding: 10px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    line-height: 18px;
+    height: 250px;
+    margin-bottom: 40px;
+    width: 150px;
+}
+
+.legend-key {
+    display: inline-block;
+    border-radius: 20%;
+    width: 10px;
+    height: 10px;
+    margin-right: 5px;
+}
+
+#legend {
+    display: block;
+    margin: 0;
+    margin-bottom: 45px;
+    margin-right: 20px;
+    text-align: left;
+  }
+
+  #legend a {
+      font-size: 13px;
+      color: #404040;
+      text-decoration: none;
+      border-bottom: 1px solid rgba(0,0,0,0.25);
+  }
+
+  #legend a:last-child {
+      border: none;
+  }
+
+  #legend a:hover {
+      background-color: #f8f8f8;
+      color: #404040;
+  }
+
+  #legend a.active {
+      background-color: #3887be;
+      color: #ffffff;
+  }
+
+  #legend a.active:hover {
+      background: #3074a4;
+  }

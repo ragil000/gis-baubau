@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8' />
+    <link rel="apple-touch-icon" sizes="76x76" href="./assets/img/apple-icon.png">
+    <link rel="icon" type="image/png" href="../img/brand/logo-baubau.png">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <title>GIS PERKIM BAU BAU</title>
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v1.3.0/mapbox-gl.js'></script>
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v1.3.0/mapbox-gl.css' rel='stylesheet' />
+    <!-- custom css -->
+    <link href="./assets/css/custom.css" rel="stylesheet" />
+    <style>
+        body { margin:0; padding:0; }
+        #map { position:absolute; top:0; bottom:0; width:100%; }
+    </style>
+</head>
+<body>
+
+  <img id="wind-direction" style="width: 50px; height: auto; display: block; top: 10px;" src="../server/upload/galeri/wind-rose.png" alt="">
+  <div id='map'></div>
+  <div class='map-overlay' id='legend'></div>
+
+  <!--   Core JS Files   -->
+  <script src="./assets/js/core/jquery.min.js" type="text/javascript"></script>
+  
+  <!-- Load API -->
+  <script src="./config.js" type="text/javascript"></script>
+
+<script>
+    mapboxgl.accessToken = 'pk.eyJ1IjoiZmFraHJhd3kiLCJhIjoiY2pscWs4OTNrMmd5ZTNra21iZmRvdTFkOCJ9.15TZ2NtGk_AtUvLd27-8xA';
+    
+    var kendari = [122.599521, -5.468334];
+    var link = 'baubau/basemap';
+    
+    var map = new mapboxgl.Map({
+        container: 'map',
+        style: 'mapbox://styles/mapbox/streets-v9',
+        center: kendari,
+        zoom: 9
+    });
+  
+    map.on('load', function() {
+      // the rest of the code will go in here
+      let url = config.apiRoot+link+'/getAllData';
+      $.ajax({
+        type: "POST",
+        url: url,
+        dataType: "JSON",
+        data: {
+  
+        },
+        success: function(respon){   
+          for (let i = 0; i < Object.keys(respon).length; i++) {
+            legendMap(Object.values(respon)[i].tb_basemap_nama, Object.values(respon)[i].tb_basemap_file, Object.values(respon)[i].tb_basemap_tipe, Object.values(respon)[i].tb_basemap_warna, Object.values(respon)[i]);
+          }
+        },
+        error:function(error){
+          console.log(error);
+        }
+      });
+
+      map.getCanvas().style.cursor = 'default';
+    });
+  
+    function legendMap(names, files, types, colors, data){
+        let url = config.apiRoot+'upload/geojson/';
+        var name = names;
+        var file = files;
+        var fileName = file.replace(".geojson", "");
+        var type = types;
+        var color = colors;
+        var item = document.createElement('div');
+        var key = document.createElement('span');
+        key.className = 'legend-key';
+        key.style.backgroundColor = color;
+  
+        var terlihat = document.createAttribute('terlihat');
+        terlihat.value = 'none';
+        visCssClass = 'active';
+  
+        var value = document.createElement('a');
+        value.href = "#";
+        value.className = visCssClass;
+  
+        if(type === 'polygon'){
+            map.addLayer({
+                'id': fileName,
+                'type': 'fill',
+                'name': fileName,
+                'source': {
+                    'type': 'geojson',
+                    'data': url+file,
+                },
+                'layout': {},
+                'paint': {
+                    'fill-color': color,
+                    'fill-opacity': 0.8
+                }
+            });
+
+            let popup = '<img class="card-img-top" style="object-fit:cover; width:100%; heigth:30px;" src="../server/upload/galeri/'+data.tb_basemap_gambar+'" alt="Card image cap">'+
+                      '<strong>'+data.tb_basemap_nama+'</strong>'+
+                      '<div class="content-text mb-0 pb-0">'+
+                        '<p style="margin-block-start:0;">'+data.tb_basemap_deskripsi+'</p>'
+                      '</div>'
+                      
+            map.on('click', fileName, function(e) {
+              new mapboxgl.Popup()
+              .setLngLat(e.lngLat)
+              .setHTML(popup)
+              .addTo(map);
+            });
+
+            // Change the cursor to a pointer when the mouse is over the states layer.
+            map.on('mouseenter', fileName, function() {
+              map.getCanvas().style.cursor = 'pointer';
+            });
+            
+            // Change it back to a pointer when it leaves.
+            map.on('mouseleave', fileName, function() {
+              map.getCanvas().style.cursor = '';
+            });
+        }else if(type === 'line'){
+            map.addLayer({
+                'id': fileName,
+                'type': type,
+                'name': fileName,
+                'source': {
+                    'type': 'geojson',
+                    'data': url+file,
+                },
+                "paint": {
+                "line-color": color,
+                "line-width": 1
+                }
+            });
+        }
+  
+        map.setLayoutProperty(fileName, 'visibility', 'visible');
+        value.onclick = function (e) {
+                
+          e.preventDefault();
+          e.stopPropagation();
+  
+          let visibility = $(this).attr("terlihat");
+          console.log(visibility);
+          if (visibility === 'visible') {
+              map.setLayoutProperty(fileName, 'visibility', 'visible');
+              this.className = 'active';
+              terlihat.value = '';
+          } else {
+              this.className = '';
+              map.setLayoutProperty(fileName, 'visibility', 'none');
+              terlihat.value = 'visible';
+          }
+        };
+  
+        var nameLegend = document.createElement('span');
+        nameLegend.innerHTML = name;
+  
+        value.setAttributeNode(terlihat);
+        value.appendChild(key);
+        value.appendChild(nameLegend);
+        item.appendChild(value);
+        legend.appendChild(item);
+  
+    }
+
+    $('.mapboxgl-canvas').css("position", "relative");
+    
+  </script>
+
+</body>
+</html>

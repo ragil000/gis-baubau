@@ -1,0 +1,135 @@
+<style>
+.gambar-galeri{
+    object-fit: cover;
+    height: 250px;
+    width: 500px;
+}
+</style>
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+        <h3 class="title">Galeri Foto</h3>
+        </div>
+    </div>
+
+    <div class="row" id="galeri-data">
+        
+    </div>
+
+    <div class="row ">
+        <div class="col-12 ">
+            <ul class="pagination justify-content-center" id="pagenation1">
+                <ul class="pagination justify-content-center">
+                    <li class="page-item">
+                    <a class="page-link" href="#link" aria-label="Previous">
+                        <span aria-hidden="true"><i class="fa fa-angle-double-left" aria-hidden="true"></i></span>
+                    </a>
+                    </li>
+                    <li class="page-item"><a class="page-link" href="#link">1</a></li>
+                    <li class="page-item active"><a class="page-link" href="#link">2</a></li>
+                    <li class="page-item"><a class="page-link" href="#link">3</a></li>
+                    <li class="page-item">
+                    <a class="page-link" href="#link" aria-label="Next">
+                        <span aria-hidden="true"><i class="fa fa-angle-double-right" aria-hidden="true"></i></span>
+                    </a>
+                    </li>
+                </ul>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    var link1 = 'baubau/galeri';
+    var dataAll1 = [];
+    var dataPilih1 = [];
+    var page1 = 1;
+    var jumlahPage1 = 1;
+    
+    $(document).ready( function() {
+        getData1();
+    });
+        
+    function getData1(_page1 = 1){
+        page1 = _page1;
+        var url1 = config.apiRoot+link1+'/page-'+page1;
+        loading();
+        return $.ajax({
+            type: "POST",
+            url: url1,
+            dataType: "JSON",
+            data: {
+
+            },
+            success: function(respon){   
+                setDataAll1(respon);
+                dataAll1 = respon.data;
+                jumlahPage1 = respon.jumlahPage;
+                setPagenation1(dataAll1, page1);
+                loading(false);
+            },
+            error:function(error){
+                loading(false);
+            }
+        });
+    }
+
+    function setDataAll1(respon){
+        dataAll1 = respon.data;
+        inputData1(respon.data);		
+    }
+    
+    function inputData1(data){
+        $("#galeri-data").empty();
+        let i = 1;
+        data.forEach(element => {
+            
+            let galeri = '<div class="col-md-4">'+
+                            '<div class="card">'+
+                                '<a data-fancybox="gallery" data-caption="'+element.tb_galeri_deskripsi+'" href="'+config.apiRoot+'/upload/galeri/'+element.tb_galeri_gambar+'">'+
+                                    '<img class="gambar-galeri" src="'+config.apiRoot+'/upload/galeri/'+element.tb_galeri_gambar+'">'+
+                                '</a>'+
+                                '<div class="card-body">'+
+                                '<p class="card-text">'+element.tb_galeri_deskripsi+'</p>'+
+                                '</div>'+
+                            '</div>'+
+                        '</div>';
+
+            $("#galeri-data").append(galeri);
+        });
+    }
+
+    function setPagenation1(data1, _page1){
+      $('#pagenation1').empty();
+      if(_page1 > 1){
+        tempPage1 = '<li class="page-item">'+
+                        '<a class="page-link" href="javascript:void(0);" tabindex="-1" onclick="getData1('+(_page1-1)+')" aria-label="Previous">'+
+                            '<span aria-hidden="true"><i class="fa fa-angle-double-left" aria-hidden="true"></i></span>'+
+                        '</a>'+
+                    '</li>';
+        $('#pagenation1').append(tempPage1);
+      }
+      for(let i = 1; i <= jumlahPage1; i++){
+
+        if(i+2 >= _page1 && i-2 <= _page1){
+        if(i == _page1){
+            tempPage1 = '<li class="page-item active"><a class="page-link" href="javascript:void(0);" onclick="getData1('+i+')">'+i+'</a></li>';
+        }else{
+            tempPage1 = '<li class="page-item"><a class="page-link" href="javascript:void(0);" onclick="getData1('+i+')">'+i+'</a></li>';
+        }
+        $('#pagenation1').append(tempPage1);
+        }
+        
+      }
+      if(_page1 < jumlahPage1){
+        tempPage1 = '<li class="page-item">'+
+                        '<a class="page-link" href="javascript:void(0);" tabindex="-1" onclick="getData1('+(_page1+1)+')" aria-label="Previous">'+
+                            '<span aria-hidden="true"><i class="fa fa-angle-double-right" aria-hidden="true"></i></span>'+
+                        '</a>'+
+                    '</li>';
+        $('#pagenation1').append(tempPage1);
+      }
+    }
+
+</script>

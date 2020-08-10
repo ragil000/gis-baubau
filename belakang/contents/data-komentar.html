@@ -1,0 +1,112 @@
+<div class="col-md-12">
+    <div class="card">
+        <div class="card-header">
+            <h4 class="card-title">Daftar Komentar</h4>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-shopping">
+                    <thead class="">      
+                        <tr>
+                            <th class="text-left">Email</th>
+                            <th class="text-left">Komentar</th>
+                            <th class="text-left">Tanggal</th>
+                        </tr>
+                    </thead>
+                    <tbody id="data-table">             
+                        <!-- data table -->
+                    </tbody>
+                </table>
+                <hr>
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination" id="pagenation">
+                        <li class="page-item"><a class="page-link" href="#"><i class="fas fa-angle-double-left"></i></a></li>
+                        <li class="page-item"><a class="page-link" href="#">1</a></li>
+                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                        <li class="page-item"><a class="page-link" href="#"><i class="fas fa-angle-double-right"></i></a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var link = 'baubau/tentang-web';
+	var dataAll = [];
+	var dataPilih = [];
+	var page = 1;
+	var jumlahPage = 1;
+	
+	$(document).ready( function() {
+        getData();
+	});
+
+    function getData(_page = 1){
+		console.log("aku getData");
+		page = _page;
+		var url = config.apiRoot+link+'/page-'+page;
+		console.log(url)
+		loading();
+		return $.ajax({
+			type: "POST",
+			url: url,
+			dataType: "JSON",
+			data: {
+
+			},
+			success: function(respon){   
+				setDataAll(respon);
+				dataAll = respon.data;
+				jumlahPage = respon.jumlahPage;
+				setPagenation(dataAll, page);
+				console.log(respon);
+				loading(false);
+			},
+			error:function(error){
+				console.log(error);
+				loading(false);
+			}
+		});
+	}
+	
+	function setDataAll(respon){
+		dataAll = respon.data;
+		inputData(respon.data);
+	}
+	
+	function inputData(data){
+		$("#data-table").empty();
+		console.log(data);
+		let i = 1;
+		data.forEach(element => {
+			
+			let row =   '<tr>'+
+                            '<td>'+
+                                    '<p>'+element.tb_aduan_email+'</p>'+
+                            '</td>'+
+                            '<td>'+
+                                '<p>'+element.tb_aduan_isi+'</p>'+
+                            '</td>'+
+                            '<td>'+
+                                '<p>'+element.tb_aduan_tgl+'</p>'+
+                            '</td>'+
+                        '</tr>';
+
+			$("#data-table").append(row);
+		});
+	}
+
+	function emptyForm(){
+
+		// $('#urusan option').removeAttr('selected');
+		// $('#fungsi option').removeAttr('selected');
+
+		$('input[name=tb_galeri_gambar]').val('');
+        $('input[name=image_name]').val('');
+        $('input[name=tb_galeri_deskripsi]').val('');
+        $('#preview-img').attr('src', './assets/img/jpg.jpg');
+	}
+    
+</script>

@@ -1,0 +1,19 @@
+[data-color="yellow"] {
+    background-color: #FFCC05;
+}
+
+.logo-brand img{
+    width: 100px;
+    /* padding-right: 10px; */
+}
+
+.logo-brand{
+    display: flex;
+    justify-content: center;
+}
+
+p.mp-0{
+    margin: 0;
+    padding: 0;
+    color: #ff0000;
+}

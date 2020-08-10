@@ -1,0 +1,231 @@
+<div class="container">
+<div id="accordion" role="tablist" aria-multiselectable="true" class="card-collapse">
+    <div class="card card-plain">
+        <div class="card-header" role="tab" id="headingOne">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+            Collapsible Group Item #1
+
+        <i class="now-ui-icons arrows-1_minimal-down"></i>
+            </a>
+        </div>
+
+        <div id="collapseOne" class="collapse show" role="tabpanel" aria-labelledby="headingOne">
+        <div class="card-body">
+            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+        </div>
+        </div>
+    </div>
+    <div class="card card-plain">
+        <div class="card-header" role="tab" id="headingTwo">
+        <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+            Collapsible Group Item #2
+
+            <i class="now-ui-icons arrows-1_minimal-down"></i>
+            </a>
+        </div>
+        <div id="collapseTwo" class="collapse" role="tabpanel" aria-labelledby="headingTwo">
+        <div class="card-body">
+            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+        </div>
+        </div>
+    </div>
+    <div class="card card-plain">
+        <div class="card-header" role="tab" id="headingThree">
+        <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+        Collapsible Group Item #3
+
+        <i class="now-ui-icons arrows-1_minimal-down"></i>
+        </a>
+        </div>
+        <div id="collapseThree" class="collapse" role="tabpanel" aria-labelledby="headingThree">
+        <div class="card-body">
+            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+        </div>
+        </div>
+    </div>
+</div>
+</div>
+
+<div class="container" id="peraturan-page">
+    <div class="row">
+        <h3 class="title">Peraturan - Peraturan Daerah</h3>
+    </div>
+    <div class="row" id="peraturan-data">
+        <!-- Data peraturan -->
+    </div>
+
+    <div class="row ">
+        <div class="col-12 ">
+            <ul class="pagination justify-content-center" id="pagenation2">
+                
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- start detail peraturan -->
+<div class="container" id="detail-peraturan">
+    <button class="btn bg-yellow btn-md" onclick="onBack()">Kembali</button>
+    <div class="row">
+        <div class="col-12">
+        <h3 class="title">Peraturan - Peraturan Daerah</h3>
+        </div>
+    </div>
+    <div class="row">
+    
+        <div class="col-md-3 col-xl-3">
+            <div class="">
+                <ul class="nav nav-tabs nav-tabs-neutral" role="tablist" id="nav-detail">
+                    
+                </ul>
+            </div>
+        </div>
+    
+        <div class="col-md-9 col-xl-9">
+            <div class="tab-content" id="data-detail">
+                
+            </div>
+        </div>
+    </div>
+    </div>
+    <!-- end detail peraturan -->
+<script>
+
+    var link2 = 'baubau/peraturan';
+    var dataAll2 = [];
+    var dataPilih2 = [];
+    var page2 = 1;
+    var jumlahPage2 = 1;
+    
+    $(document).ready( function() {
+        getData2();
+        $("#detail-peraturan").hide();
+    });
+
+    var dataActiveOld = '';
+    function onDetail(obj){
+        $("#peraturan-page").hide();
+        $("#detail-peraturan").show();
+        let dataActive = $(obj).attr("data-active");
+        document.getElementById(dataActive).setAttribute('class', 'tab-pane tab-pane-active embed-responsive-16by9 embed-responsive active');
+        document.getElementById("nav-"+dataActive).setAttribute('class', 'nav-link nav-link-tab active'); 
+        dataActiveOld = dataActive;      
+    }
+
+    function onBack(){
+        $("#peraturan-page").show();
+        $("#detail-peraturan").hide();
+        $('.tab-pane-active').removeClass('active');
+        $('.nav-link-tab').removeClass('active');
+        console.log(dataActiveOld);
+    }
+        
+    function getData2(_page2 = 1){
+        page2 = _page2;
+        var url2 = config.apiRoot+link2+'/page-'+page2;
+        loading();
+        return $.ajax({
+            type: "POST",
+            url: url2,
+            dataType: "JSON",
+            data: {
+
+            },
+            success: function(respon){   
+                setDataAll2(respon);
+                dataAll2 = respon.data;
+                jumlahPage2 = respon.jumlahPage;
+                setPagenation2(dataAll2, page2);
+                loading(false);
+            },
+            error:function(error){
+                loading(false);
+            }
+        });
+    }
+
+    function setDataAll2(respon){
+        dataAll2 = respon.data;
+        inputData2(respon.data);		
+    }
+    
+    function inputData2(data){
+        $("#peraturan-data").empty();
+        let i = 1;
+        let o = 1;
+        let p = 1;
+        let q = 1;
+        
+        data.forEach(element => {
+            
+            let peraturan = '<div class="col-md-6 ml-auto col-xl-6 mr-auto">'+
+                                '<div class="card">'+
+                                    '<div class="card-header">'+
+                                        '<ul class="nav nav-tabs nav-tabs-neutral justify-content-center" data-background-color="yellow"></ul>'+
+                                    '</div>'+
+                                    '<div class="card-body">'+
+                                        '<div class="tab-content text-center">'+
+                                            '<div class="tab-pane active" role="tabpanel">'+
+                                                '<h2>'+element.tb_peraturan_judul+'</h2>'+
+                                                '<p>'+element.tb_peraturan_isi+'</p>'+
+                                            '</div>'+
+                                            '<button onclick="onDetail(this)" data-active="detail'+(p++)+'" class="btn bg-yellow btn-md">Baca</button>'+
+                                        '</div>'+
+                                    '</div>'+
+                                '</div>'+
+                            '</div>';
+
+            let navDetail = '<li class="nav-item">'+
+                                '<a class="nav-link nav-link-tab" data-toggle="tab" id="nav-detail'+(q++)+'" href="#detail'+(i++)+'" role="tab" aria-selected="true">'+element.tb_peraturan_judul+'</a>'+
+                            '</li>';
+            
+            // let dataDetail = '<div class="tab-pane tab-pane-active " id="detail'+(o++)+'" role="tabpanel">'+
+            //                     '<h1 class="text-center">'+element.tb_peraturan_judul+'</h1>'+
+            //                     '<div class="text-justify">'+
+            //                         '<p>'+element.tb_peraturan_isi+'</p>'+
+            //                     '</div>'+
+            //                 '</div>';
+            
+            let dataDetail = '<div class="tab-pane tab-pane-active embed-responsive-16by9 embed-responsive" id="detail'+(o++)+'" role="tabpanel">'+
+                                '<iframe src = "http://localhost/pu-baubau/depan/ViewerJS/#../../coba coba.pdf" class="embed-responsive-item" allowfullscreen webkitallowfullscreen></iframe>'+
+                            '</div>';
+
+            $("#peraturan-data").append(peraturan);
+            $("#nav-detail").append(navDetail);
+            $("#data-detail").append(dataDetail);
+        });
+    }
+
+    function setPagenation2(data2, _page2){
+        $('#pagenation2').empty();
+        if(_page2 > 1){
+            tempPage2 = '<li class="page-item">'+
+                            '<a class="page-link" href="javascript:void(0);" tabindex="-1" onclick="getData2('+(_page2-1)+')" aria-label="Previous">'+
+                                '<span aria-hidden="true"><i class="fa fa-angle-double-left" aria-hidden="true"></i></span>'+
+                            '</a>'+
+                        '</li>';
+            $('#pagenation2').append(tempPage2);
+        }
+        for(let i = 1; i <= jumlahPage2; i++){
+
+            if(i+2 >= _page2 && i-2 <= _page2){
+                if(i == _page2){
+                tempPage2 = '<li class="page-item active"><a class="page-link" href="javascript:void(0);" onclick="getData2('+i+')">'+i+'</a></li>';
+                }else{
+                tempPage2 = '<li class="page-item"><a class="page-link" href="javascript:void(0);" onclick="getData2('+i+')">'+i+'</a></li>';
+                }
+                $('#pagenation2').append(tempPage2);
+            }
+        
+        }
+        if(_page2 < jumlahPage2){
+            tempPage2 = '<li class="page-item">'+
+                            '<a class="page-link" href="javascript:void(0);" tabindex="-1" onclick="getData2('+(_page2+1)+')" aria-label="Previous">'+
+                                '<span aria-hidden="true"><i class="fa fa-angle-double-right" aria-hidden="true"></i></span>'+
+                            '</a>'+
+                        '</li>';
+            $('#pagenation2').append(tempPage2);
+        }
+    }
+
+</script>
